@@ -60,3 +60,18 @@ class Redditosint::RedditClient
           client.find_element(id: "header-bottom-right").find_element(link_text: username)
         end
       end
+
+      def set_legacy_preferance
+        client.navigate.to 'https://reddit.com/prefs/'
+
+        legacy_box = client.find_element(id: "profile_opt_out")
+
+        unless legacy_box.attribute(:checked)
+            legacy_box.click
+
+            save_button = client.find_element(class: "save-preference")
+            save_button.click
+        end
+    end
+end
+

@@ -19,7 +19,24 @@ class Rubyosint
         processing = true
         while processing == true
             comments.add_comments(client.pull_comments)
-            
+
+            begin
+                client.iterate
+            rescue EndOfQueueError
+                processing = false
+
+
+                client.close
+                commments.save
+                
+                puts "Pulled #{comments.log.size} comments.."
+                puts "JSON data stored in ./data/comments.json"
+
+                comments.clear
+            end
+        end
+    end
+    
 
 
 # requires
